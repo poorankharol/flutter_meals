@@ -7,21 +7,17 @@ class MealsScreen extends StatelessWidget {
   const MealsScreen(
       {super.key,
       this.title,
-      required this.meals,
-      required this.onToggleFavourite});
+      required this.meals});
 
   final String? title;
   final List<Meal> meals;
-  final void Function(Meal meal) onToggleFavourite;
 
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
 
     Widget content = MealsList(
-      mealList: dummyMeals,
-      onToggleFavourite:
-        onToggleFavourite
+      mealList: meals,
     );
     if (meals.isEmpty) {
       content = Center(
