@@ -54,8 +54,11 @@ class MealDetailScreen extends ConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Image(
-              image: NetworkImage(meal.imageUrl),
+            Hero(
+              tag: meal.id,
+              child: Image(
+                image: NetworkImage(meal.imageUrl),
+              ),
             ),
             const SizedBox(
               height: 14,
