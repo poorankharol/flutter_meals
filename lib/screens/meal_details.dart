@@ -10,6 +10,9 @@ class MealDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
+    final favouriteMeals = ref.watch(favouriteMealProvider);
+
     var textTheme = Theme.of(context).textTheme;
     void showInfoMessage(String message) {
       ScaffoldMessenger.of(context).clearSnackBars();
@@ -17,12 +20,14 @@ class MealDetailScreen extends ConsumerWidget {
           .showSnackBar(SnackBar(content: Text(message)));
     }
 
+    final isFavourite = favouriteMeals.contains(meal);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(meal.title),
         actions: [
           IconButton(
-            icon: const Icon(Icons.star_border),
+            icon: Icon(isFavourite ? Icons.star : Icons.star_border),
             onPressed: () {
               var isAdded = ref
                   .read(favouriteMealProvider.notifier)
