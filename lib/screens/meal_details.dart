@@ -10,8 +10,8 @@ class MealDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     final favouriteMeals = ref.watch(favouriteMealProvider);
+    final isFavourite = favouriteMeals.contains(meal);
 
     var textTheme = Theme.of(context).textTheme;
     void showInfoMessage(String message) {
@@ -20,14 +20,11 @@ class MealDetailScreen extends ConsumerWidget {
           .showSnackBar(SnackBar(content: Text(message)));
     }
 
-    final isFavourite = favouriteMeals.contains(meal);
-
     return Scaffold(
       appBar: AppBar(
         title: Text(meal.title),
         actions: [
           IconButton(
-            icon: Icon(isFavourite ? Icons.star : Icons.star_border),
             onPressed: () {
               var isAdded = ref
                   .read(favouriteMealProvider.notifier)
@@ -35,6 +32,19 @@ class MealDetailScreen extends ConsumerWidget {
               showInfoMessage(
                   isAdded ? "Meal added as favourite " : "Meal Removed");
             },
+            icon: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              transitionBuilder: (child, animation) {
+                return RotationTransition(
+                  turns: Tween(end: 0.5,begin: 1.0).animate(animation),
+                  child: child,
+                );
+              },
+              child: Icon(
+                isFavourite ? Icons.star : Icons.star_border,
+                key: ValueKey(isFavourite),
+              ),
+            ),
           ),
           const SizedBox(
             width: 10,
